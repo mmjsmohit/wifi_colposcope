@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "196693211418",
+    "project_id": "wifi-colposcope-344d7",
+    "storage_bucket": "wifi-colposcope-344d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196693211418:android:e58c423a46db154d1d54a3",
+        "android_client_info": {
+          "package_name": "com.example.wifi_colposcope"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196693211418-bsc70tho446f12d6ujdl9c74pnftrocb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkligXSs0CgPqo4g233fZHh6zz2Mkb3nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196693211418-bsc70tho446f12d6ujdl9c74pnftrocb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
