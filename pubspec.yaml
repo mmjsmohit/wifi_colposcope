@@ -50,6 +50,7 @@ dependencies:
   pdf: ^3.8.3
   advance_pdf_viewer: ^2.0.1
   syncfusion_flutter_pdfviewer: ^20.2.45-beta
+  printing: ^5.9.2
 
 dev_dependencies:
   flutter_test:

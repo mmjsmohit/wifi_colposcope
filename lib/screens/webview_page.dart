@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,32 @@ class _WebViewPageState extends State<WebViewPage> {
   final GlobalKey webViewKey = GlobalKey();
   late InAppWebViewController webView;
   late Uint8List screenshotBytes;
+  late String doctorName;
+  late String hospitalName;
+
   SnapshotService snapshot = SnapshotService();
+
+  Future<void> initializeDetails() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    var db = FirebaseFirestore.instance.collection("users").doc(user.email);
+    await db.get().then((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      doctorName = data['doctor_name'];
+      hospitalName = data['hospital_name'];
+    });
+  }
+
+  @override
+  void initState() {
+    initializeDetails();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -32,7 +54,7 @@ class _WebViewPageState extends State<WebViewPage> {
           children: [
             Expanded(
               child: Stack(
-                alignment: AlignmentDirectional.bottomEnd,
+                alignment: AlignmentDirectional.bottomStart,
                 children: [
                   Container(
                     child: InAppWebView(
@@ -45,9 +67,17 @@ class _WebViewPageState extends State<WebViewPage> {
                   ),
                   Container(
                     color: Colors.white,
-                    child: Text(
-                      'Doctor Name',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    child: Column(
+                      children: [
+                        Text(
+                          doctorName,
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        Text(
+                          hospitalName,
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ],
                     ),
                   ),
                 ],

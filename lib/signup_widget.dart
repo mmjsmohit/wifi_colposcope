@@ -20,6 +20,7 @@ class SignupWidget extends StatefulWidget {
 class _SignupWidgetState extends State<SignupWidget> {
   bool clickedOnSignUp = false;
   final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -58,7 +59,7 @@ class _SignupWidgetState extends State<SignupWidget> {
       // Create a new user with a first and last name
       final user = <String, dynamic>{
         "uid": firebaseUser.uid,
-        "name": firebaseUser.displayName,
+        "name": nameController.text,
         "age": ageController.text,
         "address": addressController.text,
         "blood_group": bloodGroupValue,
@@ -100,6 +101,15 @@ class _SignupWidgetState extends State<SignupWidget> {
                       email != null && !EmailValidator.validate(email)
                           ? 'Enter a valid email'
                           : null,
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                TextFormField(
+                  controller: nameController,
+                  textInputAction: TextInputAction.next,
+                  decoration:
+                      InputDecoration(labelText: 'Enter your Full Name'),
                 ),
                 SizedBox(
                   height: 4,

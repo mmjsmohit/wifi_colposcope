@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../pdf_handler.dart';
@@ -8,6 +7,7 @@ class PDFReader extends StatelessWidget {
 
   Future<String> pdfurl() async {
     final PDFHandler pdfHandler = PDFHandler();
+    await pdfHandler.setUser();
     final pdfUrl = await pdfHandler.createPDF();
     return pdfUrl;
   }
