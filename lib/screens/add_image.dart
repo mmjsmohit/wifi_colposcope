@@ -33,7 +33,7 @@ class _AddImageState extends State<AddImage> {
                   uploadFile().whenComplete(() => Navigator.of(context).pop());
                 },
                 child: Text(
-                  'upload',
+                  'Upload',
                   style: TextStyle(color: Colors.white),
                 ))
           ],

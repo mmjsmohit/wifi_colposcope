@@ -53,7 +53,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   }
 
   @override
-  void deactivate() {
+  Future<void> deactivate() async {
     if (clickedOnSignUp) {
       final firebaseUser = FirebaseAuth.instance.currentUser!;
       // Create a new user with a first and last name
@@ -71,6 +71,7 @@ class _SignupWidgetState extends State<SignupWidget> {
         "hospital_name": hospitalNameController.text
       };
       print(user);
+      await firebaseUser.updateDisplayName(user['name']);
       db.doc(emailController.text).set(user);
     }
     // TODO: implement deactivate

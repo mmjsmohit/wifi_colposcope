@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../pdf_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PDFReader extends StatelessWidget {
   PDFReader({Key? key}) : super(key: key);
+
+  late String pdfPath;
 
   Future<String> pdfurl() async {
     final PDFHandler pdfHandler = PDFHandler();
@@ -17,6 +20,17 @@ class PDFReader extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                Share.shareFiles([
+                  '/data/user/0/com.example.wifi_colposcope/cache/example.pdf'
+                ]);
+              },
+              icon: Icon(Icons.share),
+              tooltip: 'Share PDF Report',
+            )
+          ],
           title: Text('PDF Report'),
         ),
         body: FutureBuilder(

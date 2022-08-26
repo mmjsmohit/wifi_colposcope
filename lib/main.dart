@@ -70,7 +70,10 @@ class _MainPageState extends State<MainPage> {
               child: Text('Something went wrong!'),
             );
           } else if (snapshot.hasData) {
-            return WebViewPage();
+            WebViewPage webViewPage = WebViewPage();
+            webViewPage.setUser();
+            Future.delayed(const Duration(milliseconds: 3000));
+            return webViewPage;
           } else {
             return AuthPage();
           }

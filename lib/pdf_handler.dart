@@ -117,6 +117,7 @@ class PDFHandler {
     // }
     // On Flutter, use the [path_provider](https://pub.dev/packages/path_provider) library:
     final output = await getTemporaryDirectory();
+    print('Output Path is ${output.path}');
     final File file = File("${output.path}/example.pdf");
     await file.writeAsBytes(await pdf.save());
     pdfUrl = await uploadFile(file);
