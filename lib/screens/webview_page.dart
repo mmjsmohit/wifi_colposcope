@@ -25,7 +25,7 @@ class WebViewPage extends StatefulWidget {
       final data = doc.data() as Map<String, dynamic>;
       name = data['name'];
       hospitalName = data['hospital_name'];
-      imageQuantity = data['urls'].length;
+      // imageQuantity = data['urls'].length;
     });
     print('WebViewer creation done!');
   }
@@ -90,19 +90,18 @@ class _WebViewPageState extends State<WebViewPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (imageQuantity < 1) {
-                      final snackBar = SnackBar(
-                        content: const Text(
-                            'Take atleast one snapshot to generate report!'),
-                        backgroundColor: Colors.red,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => PDFReader())));
-                    }
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => PDFReader())));
+                    // if (imageQuantity < 1) {
+                    //   final snackBar = SnackBar(
+                    //     content: const Text(
+                    //         'Take atleast one snapshot to generate report!'),
+                    //     backgroundColor: Colors.red,
+                    //   );
+                    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // } else {
+
+                    // }
                   },
                   child: Text('Generate PDF Report!'),
                 )
