@@ -118,6 +118,7 @@ class _AddImageState extends State<AddImage> {
   docRef = FirebaseFirestore.instance.collection('comorbidities').doc(widget.emailAddress);
     int i = 1;
 
+        docRef.set({"comorbidities": []});
     for (var img in _image) {
       setState(() {
         val = i / _image.length;
@@ -125,7 +126,6 @@ class _AddImageState extends State<AddImage> {
       ref = firebase_storage.FirebaseStorage.instance.ref().child(
           '${widget.emailAddress}/images/comorbidities/${Path.basename(img.path)}');
       await ref.putFile(img).whenComplete(() async {
-        docRef.set({"comorbidities": []});
       await ref.getDownloadURL().then((value) => {
             docRef.update({
               'comorbidities': FieldValue.arrayUnion([value]),
