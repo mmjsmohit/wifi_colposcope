@@ -7,8 +7,8 @@ import 'package:wifi_colposcope/screens/pdf_reader.dart';
 import 'package:wifi_colposcope/snapshot_service.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-late String name;
-late String hospitalName;
+// late String name;
+// late String hospitalName;
 late int imageQuantity = 0;
 
 class WebViewPage extends StatefulWidget {
@@ -18,15 +18,6 @@ class WebViewPage extends StatefulWidget {
   State<WebViewPage> createState() => _WebViewPageState();
   Future<void> setUser() async {
     print('Webviewer Creation Started');
-    final firebaseUser = FirebaseAuth.instance.currentUser!;
-    var db =
-        FirebaseFirestore.instance.collection("users").doc(firebaseUser.email);
-    await db.get().then((doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      name = data['name'];
-      hospitalName = data['hospital_name'];
-      // imageQuantity = data['urls'].length;
-    });
     print('WebViewer creation done!');
   }
 }
@@ -41,6 +32,8 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+    final firebaseUser = FirebaseAuth.instance.currentUser!;
+    var db = FirebaseFirestore.instance.collection("users").doc(firebaseUser.email);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -63,10 +56,17 @@ class _WebViewPageState extends State<WebViewPage> {
                   ),
                   Container(
                     color: Colors.white,
-                    child: Text(
-                      '$name\n$hospitalName',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    child: FutureBuilder(
+            future: getHospitalName(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final String? hospital_name = snapshot.data;
+              return Text('${user.displayName}\n$hospital_name', style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),);
+            }),
                   ),
                 ],
               ),
@@ -127,5 +127,18 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
       ),
     );
+  }
+  
+  Future<String> getHospitalName() async {
+        final firebaseUser = FirebaseAuth.instance.currentUser!;
+    var db = FirebaseFirestore.instance.collection("users").doc(firebaseUser.email);
+    late String hospitalName;
+    await db.get().then((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      // name = data['name'];
+      hospitalName = data['hospital_name'];
+    });
+    return hospitalName;
+
   }
 }

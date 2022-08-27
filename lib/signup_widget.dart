@@ -68,7 +68,8 @@ class _SignupWidgetState extends State<SignupWidget> {
         "comorbidities": comorbiditiesController.text,
         "visit_details": doctorVisitController.text,
         "doctor_name": doctorNameController.text,
-        "hospital_name": hospitalNameController.text
+        "hospital_name": hospitalNameController.text,
+        "urls" : [],
       };
       print(user);
       await firebaseUser.updateDisplayName(user['name']);

@@ -22,14 +22,16 @@ class PDFHandler {
   late String doctorName;
   late String hospitalName;
   late String bloodGroup;
+  late List<dynamic> comorSnapshots;
   late List<dynamic> snapshots;
 
   Future<void> setUser() async {
     print('PDFHandler Creation Started');
     final firebaseUser = FirebaseAuth.instance.currentUser!;
-    var db =
+    var userDB =
         FirebaseFirestore.instance.collection("users").doc(firebaseUser.email);
-    await db.get().then((doc) {
+    var comorDB = FirebaseFirestore.instance.collection('comorbidities').doc(firebaseUser.email);
+    await userDB.get().then((doc) {
       final data = doc.data() as Map<String, dynamic>;
       email = firebaseUser.email!;
       name = data['name'];
@@ -45,6 +47,10 @@ class PDFHandler {
       snapshots = data['urls'];
       print('Snapshot List is: ${snapshots}');
     });
+  await comorDB.get().then((doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    comorSnapshots = data['comorbidities'];
+  },);
     print('Email stored is $email');
     // print('URL List is $snapshots');
     print('PDFHandler creation done!');
@@ -54,7 +60,9 @@ class PDFHandler {
     final pdf = pw.Document();
     late String pdfUrl;
     final imageQuantity = snapshots.length;
+    final comorQuantity = comorSnapshots.length;
     print('imageQuantity is $imageQuantity');
+    print('comorQuantity is $comorQuantity');
 
     // for (int i = 0; i < imageQuantity; i++) {
     //   imageProvider.add(await networkImage(snapshots[i]));
@@ -89,7 +97,35 @@ class PDFHandler {
         },
       ),
     );
-    //Secondly add all the snapshots.
+
+    pdf.addPage(
+      pw.Page(pageFormat: PdfPageFormat.a4, build: (pw.Context context){
+        return pw.Center(child: pw.Text('Comorbidities', style: pw.TextStyle(fontSize: 60),),);
+      })
+    );
+
+
+    //Secondly add all the comorbidities.
+    for (int i = 0; i < comorQuantity; i++) {
+      var netImage = await networkImage(comorSnapshots[i]);
+      pdf.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context context) {
+            return pw.Center(
+              child: pw.Image(netImage),
+            ); // Center
+          },
+        ),
+      );
+    }
+
+    //Thirdly, add all the snapshots.
+        pdf.addPage(
+      pw.Page(pageFormat: PdfPageFormat.a4, build: (pw.Context context){
+        return pw.Center(child: pw.Text('Snapshots', style: pw.TextStyle(fontSize: 60),),);
+      })
+    );
     for (int i = 0; i < imageQuantity; i++) {
       var netImage = await networkImage(snapshots[i]);
       pdf.addPage(

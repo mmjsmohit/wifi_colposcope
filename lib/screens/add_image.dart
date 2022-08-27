@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -111,6 +113,9 @@ class _AddImageState extends State<AddImage> {
   }
 
   Future uploadFile() async {
+    
+  late DocumentReference docRef;
+  docRef = FirebaseFirestore.instance.collection('comorbidities').doc(widget.emailAddress);
     int i = 1;
 
     for (var img in _image) {
@@ -119,7 +124,14 @@ class _AddImageState extends State<AddImage> {
       });
       ref = firebase_storage.FirebaseStorage.instance.ref().child(
           '${widget.emailAddress}/images/comorbidities/${Path.basename(img.path)}');
-      await ref.putFile(img).whenComplete(() async {});
+      await ref.putFile(img).whenComplete(() async {
+        docRef.set({"comorbidities": []});
+      await ref.getDownloadURL().then((value) => {
+            docRef.update({
+              'comorbidities': FieldValue.arrayUnion([value]),
+            })
+          });
+    });
     }
   }
 }
