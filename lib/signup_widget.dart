@@ -70,6 +70,7 @@ class _SignupWidgetState extends State<SignupWidget> {
         "doctor_name": doctorNameController.text,
         "hospital_name": hospitalNameController.text,
         "urls" : [],
+        "timestamps" : []
       };
       print(user);
       await firebaseUser.updateDisplayName(user['name']);

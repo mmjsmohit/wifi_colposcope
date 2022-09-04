@@ -48,7 +48,7 @@ class _WebViewPageState extends State<WebViewPage> {
                   Container(
                     child: InAppWebView(
                         initialUrlRequest: URLRequest(
-                          url: Uri.parse("http://google.com/"),
+                          url: Uri.parse("http://192.168.43.62/"),
                         ),
                         onWebViewCreated: (InAppWebViewController controller) {
                           webView = controller;

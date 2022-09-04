@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:intl/intl.dart';
 
 class SnapshotService {
   Future<void> uploadFile(String emailAddress, Uint8List imageData) async {
@@ -19,11 +20,16 @@ class SnapshotService {
     ref = firebase_storage.FirebaseStorage.instance.ref().child(
         '$emailAddress/images/snapshots/${DateTime.now().millisecondsSinceEpoch}');
     await ref.putFile(file).whenComplete(() async {
-      await ref.getDownloadURL().then((value) => {
-            docRef.update({
-              'urls': FieldValue.arrayUnion([value]),
-            })
-          });
+      await ref.getDownloadURL().then((value) {
+        docRef.update({
+          'urls': FieldValue.arrayUnion([value]),
+        });
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+        docRef.update({
+          'timestamps': FieldValue.arrayUnion([formattedDate]),
+        });
+      });
     });
   }
 }

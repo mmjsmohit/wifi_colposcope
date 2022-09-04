@@ -24,7 +24,7 @@ class PDFReader extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Share.shareFiles([
-                  '/data/user/0/com.example.wifi_colposcope/cache/example.pdf'
+                  '/data/user/0/com.example.wifi_colposcope/cache/report.pdf'
                 ]);
               },
               icon: Icon(Icons.share),
