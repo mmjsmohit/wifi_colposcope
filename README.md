@@ -29,3 +29,6 @@ Flutter, Firebase
 ### Shareable PDF
 ![Shareable PDF](https://github.com/mmjsmohit/wifi_colposcope/raw/master/images/Sharable%20PDF.gif?raw=true)
 
+### Problems I faced developing this project
+The main issue I faced while making this project was with asynchronous programming concepts. There was a lot of back and forth of data while painting the UI which caused the app to crash many times. I read through the documentation, refreshed my concepts to solve the issues. Now I am learning how to store data offline in Flutter so that I can reduce the number of calls this app makes to the server and hence improve its performance.
+
